@@ -146,3 +146,39 @@ class PhoneOTP(models.Model):
 
     def __str__(self):
         return str(self.phone) + ' is sent ' + str(self.otp)
+
+
+
+class SliderImageModel(models.Model):
+    title = models.TextField(max_length=1000, default="Restore")
+    image = models.ImageField(upload_to='SliderImages/', blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class M_Services(models.Model):
+    title = models.CharField(max_length=1000)
+    description = models.TextField()
+    shortdescription = models.CharField(max_length=1000)
+    status = models.CharField(max_length=1000)
+    icon = models.ImageField(upload_to='images/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class M_SubServices(models.Model):
+    MainService = models.ForeignKey(
+        M_Services, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=1000)
+    description = models.TextField()
+    shortdescription = models.CharField(max_length=1000)
+    status = models.CharField(max_length=1000)
+    icon = models.ImageField(upload_to='images/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

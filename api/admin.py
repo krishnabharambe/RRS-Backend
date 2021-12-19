@@ -9,9 +9,12 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 
 
-from .models import Profile, PhoneOTP
+from .models import M_Services, M_SubServices, Profile, PhoneOTP, SliderImageModel
 
 admin.site.register(PhoneOTP)
+admin.site.register(SliderImageModel)
+admin.site.register(M_Services)
+admin.site.register(M_SubServices)
 
 class ProfileInline(admin.StackedInline):
     model = Profile

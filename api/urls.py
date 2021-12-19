@@ -13,4 +13,11 @@ urlpatterns = [
     path('ForgotValidateOTP/', views.ForgotValidateOTP.as_view()),
     path('ForgetPasswordChange/', views.ForgetPasswordChange.as_view()),
 
+
+    path('allSlidercards/', views.allSlidercards, name="allSlidercards"),
+    path('allServicesList/', views.allServicesList),
+    path('MainServicesList/', views.MainServicesList),
+    path('allServicesList/<service>/', views.serviceOrList),
+
+
 ]

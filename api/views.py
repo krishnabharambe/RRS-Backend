@@ -5,9 +5,9 @@ from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
-from api.models import User, PhoneOTP
+from api.models import M_Services, M_SubServices, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -411,3 +411,49 @@ def send_otp_forgot(phone):
         return otp_key
     else:
         return False
+
+@api_view(['GET', ])
+def MainServicesList(request):
+    try:
+        allServices = M_Services.objects.all().order_by('id')[:8]
+    except M_Services.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_ServicesSerializer(allServices, many=True)
+        return Response(serializer.data)
+        
+@api_view(['GET', ])
+def allServicesList(request):
+    try:
+        allServices = M_Services.objects.all()
+    except M_Services.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_ServicesSerializer(allServices, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET', ])
+def allSlidercards(request):
+    try:
+        sim = SliderImageModel.objects.all()
+    except SliderImageModel.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = SliderImageModelSerializer(sim, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET', ])
+def serviceOrList(request, service):
+    try:
+        ActiveService = M_Services.objects.get(pk=service)
+        SubServices = M_SubServices.objects.filter(MainService=ActiveService)
+    except M_Services.DoesNotExist or M_SubServices.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_ServicesSerializer(SubServices, many=True)
+        return Response(serializer.data)

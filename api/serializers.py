@@ -4,6 +4,25 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+from .models import SliderImageModel, M_Services, M_SubServices
+
+
+class SliderImageModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SliderImageModel
+        fields = '__all__'
+
+class M_ServicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = M_Services
+        fields = ['id', 'title', 'description',
+                  'shortdescription', 'status', 'icon', 'uploaded_at']
+
+
+class M_SubServicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = M_SubServices
+        fields = '__all__'
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
