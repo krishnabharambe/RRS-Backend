@@ -18,6 +18,7 @@ urlpatterns = [
     path('allServicesList/', views.allServicesList),
     path('MainServicesList/', views.MainServicesList),
     path('allServicesList/<service>/', views.serviceOrList),
+    path('SubService/<service>/', views.SubServiceView),
 
 
 ]
