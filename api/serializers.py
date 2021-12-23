@@ -4,8 +4,13 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .models import SliderImageModel, M_Services, M_SubServices
+from .models import SliderImageModel, M_Services, M_SubServices, R_Requests
 
+
+class R_RequestsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = R_Requests
+        fields = '__all__'
 
 class SliderImageModelSerializer(serializers.ModelSerializer):
     class Meta:

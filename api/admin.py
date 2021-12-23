@@ -9,21 +9,20 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 
 
-from .models import M_Services, M_SubServices, Profile, PhoneOTP, SliderImageModel
+from .models import M_Services, M_SubServices, Profile, PhoneOTP, R_Requests, SliderImageModel
 
 admin.site.register(PhoneOTP)
 admin.site.register(SliderImageModel)
 admin.site.register(M_Services)
 admin.site.register(M_SubServices)
+admin.site.register(R_Requests)
 
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
-
-
-        
+   
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -63,8 +62,6 @@ class UserAdmin(BaseUserAdmin):
         return super(UserAdmin, self).get_inline_instances(request, obj)
 
 admin.site.register(User, UserAdmin)
-
-
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)

@@ -11,6 +11,15 @@ from django.db.models.signals import post_save
 import random
 import os
 
+
+STATUS_CHOICES = (
+    ('Active','Active'),
+    ('Pending', 'Pending'),
+    ('Complete','Complete'),
+    ('Archived','Archived'),
+    ('Cancelled','Cancelled'),
+)
+
 class UserManager(BaseUserManager):
     def create_user(self, phone, password=None, is_staff=False, is_active=True, is_admin=False):
         if not phone:
@@ -33,8 +42,6 @@ class UserManager(BaseUserManager):
             phone,
             password=password,
             is_staff=True,
-
-
         )
         return user
 
@@ -44,10 +51,9 @@ class UserManager(BaseUserManager):
             password=password,
             is_staff=True,
             is_admin=True,
-
-
         )
         return user
+
 
 
 class User(AbstractBaseUser):
@@ -92,9 +98,6 @@ class User(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
-    
-   
-
 
 
 def upload_image_path_profile(instance, filename):
@@ -182,3 +185,13 @@ class M_SubServices(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class R_Requests(models.Model):
+    ServiceID = models.ForeignKey(M_SubServices, null=True, on_delete=models.SET_NULL)
+    UserId = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    Contact = models.CharField(max_length=1000)
+    Address = models.TextField()
+    Comments = models.TextField()
+    Status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Active')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
