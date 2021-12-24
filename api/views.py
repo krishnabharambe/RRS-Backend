@@ -481,3 +481,27 @@ def allRequests(request):
     if request.method == "GET":
         serializer = R_RequestsSerializer(SubServicesm, many=True)
         return Response(serializer.data)
+
+
+@api_view(['POST', ])
+def RV_requests(request):
+    ServiceID= request.data.get('ServiceID',False)
+    UserId= request.data.get('UserId',False)
+    Contact= request.data.get('Contact',False)
+    Address= request.data.get('Address',False)
+    Comments= request.data.get('Comments',False)
+    Temp_data = {'ServiceID': ServiceID, 'UserId': UserId,'Contact':Contact,'Address':Address,'Comments':Comments,'Status':'Active'}
+
+    serializer = R_RequestsSerializer(data=Temp_data)
+    serializer.is_valid(raise_exception=True)
+    check = serializer.save()
+    if check :
+        return Response({
+            'status': True,
+            'detail': 'Service Request posted.'
+        })
+    else:
+        return Response({
+            'status': False,
+            'detail': 'Something went wrong, Please try again'
+        })

@@ -29,6 +29,7 @@ class M_SubServicesSerializer(serializers.ModelSerializer):
         model = M_SubServices
         fields = '__all__'
 
+
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

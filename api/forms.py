@@ -11,7 +11,6 @@ class VerifyForm(forms.Form):
     key = forms.IntegerField(label = 'Please Enter OTP here')
     
 
-
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
@@ -36,8 +35,6 @@ class RegisterForm(forms.ModelForm):
         return password2
 
 
-
-
 class TempRegisterForm(forms.Form):
     phone = forms.IntegerField()
     otp = forms.IntegerField()
@@ -48,10 +45,6 @@ class SetPasswordForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(
         label='Password confirmation', widget=forms.PasswordInput)
-
-
-
-
 
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
