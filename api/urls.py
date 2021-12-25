@@ -22,7 +22,6 @@ urlpatterns = [
 
     path('allRequests/', views.allRequests, name="allRequests"),
     path('requests/add/', views.RV_requests, name="RV_requests"),
-    path('requests/<userID>/', views.getUserRequests, name="getUserRequests")
-
+    path('requests/', views.getUserRequests, name="getUserRequests")
 
 ]

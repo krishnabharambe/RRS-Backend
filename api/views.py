@@ -506,9 +506,9 @@ def RV_requests(request):
         })
 
 @api_view(['GET', ])
-def getUserRequests(request, userID):
+def getUserRequests(request):
     try:
-        userequests = R_Requests.objects.filter(UserId=User.objects.get(pk=userID))
+        userequests = R_Requests.objects.filter(UserId=User.objects.get(pk=request.user.id))
     except R_Requests.DoesNotExist:
         return Response(status.HTTP_404_NOT_FOUND)
 
