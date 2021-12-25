@@ -515,3 +515,15 @@ def getUserRequests(request):
     if request.method == "GET":
         serializer = R_RequestsSSerializer(userequests, many=True)
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getRequest(request, id):
+    try:
+        brequest = R_Requests.objects.get(pk=id)
+    except R_Requests.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = R_RequestsSSerializer(brequest)
+        return Response(serializer.data)
