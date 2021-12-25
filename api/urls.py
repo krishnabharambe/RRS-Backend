@@ -21,7 +21,8 @@ urlpatterns = [
     path('SubService/<service>/', views.SubServiceView),
 
     path('allRequests/', views.allRequests, name="allRequests"),
-    path('requests/add/', views.RV_requests, name="RV_requests")
+    path('requests/add/', views.RV_requests, name="RV_requests"),
+    path('requests/<userID>/', views.getUserRequests, name="getUserRequests")
 
 
 ]

@@ -491,7 +491,6 @@ def RV_requests(request):
     Address= request.data.get('Address',False)
     Comments= request.data.get('Comments',False)
     Temp_data = {'ServiceID': ServiceID, 'UserId': UserId,'Contact':Contact,'Address':Address,'Comments':Comments,'Status':'Active'}
-
     serializer = R_RequestsSerializer(data=Temp_data)
     serializer.is_valid(raise_exception=True)
     check = serializer.save()
@@ -505,3 +504,14 @@ def RV_requests(request):
             'status': False,
             'detail': 'Something went wrong, Please try again'
         })
+
+@api_view(['GET', ])
+def getUserRequests(request, userID):
+    try:
+        userequests = R_Requests.objects.filter(UserId=User.objects.get(pk=userID))
+    except R_Requests.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = R_RequestsSerializer(userequests, many=True)
+        return Response(serializer.data)
