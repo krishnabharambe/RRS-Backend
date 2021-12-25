@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from api.models import M_Services, M_SubServices, R_Requests, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, M_SubServicesSerializer, R_RequestsSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, M_SubServicesSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -513,5 +513,5 @@ def getUserRequests(request):
         return Response(status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = R_RequestsSerializer(userequests, many=True)
+        serializer = R_RequestsSSerializer(userequests, many=True)
         return Response(serializer.data)

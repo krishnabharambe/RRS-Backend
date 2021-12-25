@@ -12,6 +12,18 @@ class R_RequestsSerializer(serializers.ModelSerializer):
         model = R_Requests
         fields = '__all__'
 
+class M_SubServicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = M_SubServices
+        fields = '__all__'
+
+
+class R_RequestsSSerializer(serializers.ModelSerializer):
+    ServiceID = M_SubServicesSerializer(read_only=True)
+    class Meta:
+        model = R_Requests
+        fields = '__all__'
+
 class SliderImageModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = SliderImageModel
@@ -22,13 +34,6 @@ class M_ServicesSerializer(serializers.ModelSerializer):
         model = M_Services
         fields = ['id', 'title', 'description',
                   'shortdescription', 'status', 'icon', 'uploaded_at']
-
-
-class M_SubServicesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = M_SubServices
-        fields = '__all__'
-
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
