@@ -129,7 +129,6 @@ class Profile(models.Model):
 
 
 
-
 def user_created_receiver(sender, instance, created, *args, **kwargs):
     if created:
         Profile.objects.get_or_create(user = instance)
@@ -195,3 +194,12 @@ class R_Requests(models.Model):
     Comments = models.TextField()
     Status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Active')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Offers(models.Model):
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
+    image = models.ImageField(upload_to = "Offers/", default=None, null = True, blank = True)
+    OfferCode = models.CharField(max_length = 30, null = True)
+    Status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Active')
+
+    def __str__(self):
+        return str(self.user) 

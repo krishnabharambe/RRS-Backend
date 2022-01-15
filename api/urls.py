@@ -24,5 +24,9 @@ urlpatterns = [
     path('requests/add/', views.RV_requests, name="RV_requests"),
     path('requests/', views.getUserRequests, name="getUserRequests"),
     path('request/<id>/', views.getRequest, name="getRequest"),
+    path('CancelBooking/<id>/', views.CancelBooking, name="CancelBooking"),
+
+    path('profile/', views.myProfile, name="myProfile"),
+    path('myProfileUpdate/', views.myProfileUpdate, name='myProfileUpdate'),
 
 ]

@@ -1,11 +1,18 @@
+from dataclasses import fields
+from operator import mod
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .models import SliderImageModel, M_Services, M_SubServices, R_Requests
+from .models import SliderImageModel, M_Services, M_SubServices, R_Requests, Profile
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields='__all__'
 
 class R_RequestsSerializer(serializers.ModelSerializer):
     class Meta:

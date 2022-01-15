@@ -1,3 +1,6 @@
+from ast import Try
+import re
+from urllib import request
 from django.shortcuts import get_object_or_404, render
 import random
 # Create your views here.
@@ -5,9 +8,9 @@ from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
-from api.models import M_Services, M_SubServices, R_Requests, SliderImageModel, User, PhoneOTP
+from api.models import M_Services, M_SubServices, Profile, R_Requests, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, M_SubServicesSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -527,3 +530,63 @@ def getRequest(request, id):
     if request.method == "GET":
         serializer = R_RequestsSSerializer(brequest)
         return Response(serializer.data)
+
+
+# class myProfile(generics.RetrieveAPIView):
+
+#     authentication_classes = (TokenAuthentication,)
+#     permission_classes = [permissions.IsAuthenticated, ]
+#     serializer_class = UserSerializer
+
+#     def get_object(self):
+#         try:
+#             mProfile = Profile.objects.get(user=self.request.user)
+#             print(mProfile)
+#         except Profile.DoesNotExist:
+#             return Response(status.HTTP_404_NOT_FOUND)
+            
+#         serilizer = ProfileSerializer(mProfile)
+#         return Response(serilizer.data)
+
+@api_view(['POST', ])
+def myProfile(request):
+    try:
+        mProfile = Profile.objects.get(user=User.objects.get(id=request.data.get('UserID',False)))
+        print(mProfile)
+    except Profile.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+            
+    serilizer = ProfileSerializer(mProfile, many=False)
+    return Response(serilizer.data)
+
+
+@api_view(['POST', ])
+def myProfileUpdate(request):
+    try:
+        mProfile = Profile.objects.get(user=User.objects.get(id=request.data.get('UserID',False)))
+        mProfile.email = request.data.get('email',False)
+        mProfile.address =request.data.get('address',False)
+        mProfile.city =request.data.get('city',False)
+        mProfile.save()
+    except Profile.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+            
+    serilizer = ProfileSerializer(mProfile, many=False)
+    return Response(serilizer.data)
+
+
+# Cancelled
+@api_view(['POST',])
+def CancelBooking(request,id):
+    try:
+        brequest = R_Requests.objects.get(pk=id)
+        brequest.Status = "Cancelled"
+        brequest.save()
+        
+    except R_Requests.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    serializer = R_RequestsSSerializer(brequest)
+    return Response(serializer.data)
+
+        
