@@ -17,7 +17,9 @@ urlpatterns = [
     path('allSlidercards/', views.allSlidercards, name="allSlidercards"),
     path('allServicesList/', views.allServicesList),
     path('MainServicesList/', views.MainServicesList),
+    path('Services4/', views.Services4),
     path('allServicesList/<service>/', views.serviceOrList),
+    path('allServicesList4/<service>/', views.serviceOrList4),
     path('SubService/<service>/', views.SubServiceView),
 
     path('allRequests/', views.allRequests, name="allRequests"),

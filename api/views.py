@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from api.models import M_Services, M_SubServices, Profile, R_Requests, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -425,7 +425,19 @@ def MainServicesList(request):
     if request.method == "GET":
         serializer = M_ServicesSerializer(allServices, many=True)
         return Response(serializer.data)
-        
+
+@api_view(['GET', ])
+def Services4(request):
+    try:
+        allServices = M_Services.objects.all().order_by('id')[:4]
+    except M_Services.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_Services4Serializer(allServices, many=True)
+        return Response(serializer.data)
+
+
 @api_view(['GET', ])
 def allServicesList(request):
     try:
@@ -461,6 +473,17 @@ def serviceOrList(request, service):
         serializer = M_ServicesSerializer(SubServices, many=True)
         return Response(serializer.data)
 
+@api_view(['GET', ])
+def serviceOrList4(request, service):
+    try:
+        ActiveService = M_Services.objects.get(pk=service)
+        SubServices = M_SubServices.objects.filter(MainService=ActiveService).order_by('id')[:4]
+    except M_Services.DoesNotExist or M_SubServices.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_ServicesSerializer(SubServices, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET', ])
 def SubServiceView(request, service):

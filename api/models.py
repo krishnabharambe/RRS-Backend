@@ -180,11 +180,11 @@ class M_SubServices(models.Model):
     shortdescription = models.CharField(max_length=1000)
     status = models.CharField(max_length=1000)
     icon = models.ImageField(upload_to='images/')
+    TileImage = models.ImageField(upload_to='Tileimages/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-
 
 class R_Requests(models.Model):
     ServiceID = models.ForeignKey(M_SubServices, null=True, on_delete=models.SET_NULL)
