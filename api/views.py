@@ -482,7 +482,7 @@ def serviceOrList4(request, service):
         return Response(status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = M_ServicesSerializer(SubServices, many=True)
+        serializer = M_SubServicesSerializer(SubServices, many=True)
         return Response(serializer.data)
 
 @api_view(['GET', ])
