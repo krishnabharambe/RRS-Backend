@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from api.models import M_Services, M_SubServices, Profile, R_Requests, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -233,6 +233,73 @@ class LoginAPI(KnoxLoginView):
 
         login(request, user)
         return super().post(request, format=None)
+
+class LoginTechAPI(KnoxLoginView):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        serializer = LoginTechUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        if user.last_login is None:
+            user.first_login = True
+            user.save()
+
+        elif user.first_login:
+            user.first_login = False
+            user.save()
+
+        login(request, user)
+        return super().post(request, format=None)
+
+class RegisterTech(APIView):
+
+    '''Takes phone and a password and creates a new user only if otp was verified and phone is new'''
+
+    def post(self, request, *args, **kwargs):
+        phone = request.data.get('phone', False)
+        password = request.data.get('password', False)
+
+        if phone and password:
+            phone = str(phone)
+            user = User.objects.filter(phone__iexact=phone)
+            if user.exists():
+                return Response({'status': False, 'detail': 'Phone Number already have account associated. Kindly try forgot password'})
+            else:
+                old = PhoneOTP.objects.filter(phone__iexact=phone)
+                if old.exists():
+                    old = old.first()
+                    if old.logged:
+                        Temp_data = {'phone': phone, 'password': password}
+
+                        serializer = CreateTechUserSerializer(data=Temp_data)
+                        serializer.is_valid(raise_exception=True)
+                        user = serializer.save()
+                        user.save()
+
+                        old.delete()
+                        return Response({
+                            'status': True,
+                            'detail': 'Congrts, user has been created successfully.'
+                        })
+
+                    else:
+                        return Response({
+                            'status': False,
+                            'detail': 'Your otp was not verified earlier. Please go back and verify otp'
+
+                        })
+                else:
+                    return Response({
+                        'status': False,
+                        'detail': 'Phone number not recognised. Kindly request a new otp with this number'
+                    })
+
+        else:
+            return Response({
+                'status': 'False',
+                'detail': 'Either phone or password was not recieved in Post request'
+            })
+
 
 class Register(APIView):
 

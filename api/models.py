@@ -203,3 +203,10 @@ class Offers(models.Model):
 
     def __str__(self):
         return str(self.user) 
+
+
+class RequestAssign(models.Model):
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
+    booking = models.ForeignKey(R_Requests, on_delete= models.CASCADE)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
