@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-from .models import SliderImageModel, M_Services, M_SubServices, R_Requests, Profile
+from .models import SliderImageModel, M_Services, M_SubServices, R_Requests, Profile, RequestAssign
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -30,6 +31,11 @@ class M_SubServicesSerializer(serializers.ModelSerializer):
         model = M_SubServices
         fields = '__all__'
 
+class RequestAssignSerializer(serializers.ModelSerializer):
+    booking = R_RequestsSerializer(read_only=True)
+    class Meta:
+        model = RequestAssign
+        fields='__all__'
 
 class M_Services4Serializer(serializers.ModelSerializer):
     subs = M_SubServicesSerializer(read_only=True)
