@@ -20,6 +20,8 @@ class R_RequestsSerializer(serializers.ModelSerializer):
         model = R_Requests
         fields = '__all__'
 
+
+
 class M_ServicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = M_Services
@@ -31,11 +33,19 @@ class M_SubServicesSerializer(serializers.ModelSerializer):
         model = M_SubServices
         fields = '__all__'
 
+class R_RequestsTechSerializer(serializers.ModelSerializer):
+    ServiceID = M_SubServicesSerializer(read_only=True)
+    class Meta:
+        model = R_Requests
+        fields = '__all__'
+        
 class RequestAssignSerializer(serializers.ModelSerializer):
-    booking = R_RequestsSerializer(read_only=True)
+    booking = R_RequestsTechSerializer(read_only=True)
     class Meta:
         model = RequestAssign
         fields='__all__'
+
+
 
 class M_Services4Serializer(serializers.ModelSerializer):
     subs = M_SubServicesSerializer(read_only=True)
