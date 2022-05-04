@@ -10,10 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 from datetime import timedelta
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import ugettext_lazy 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,8 +26,7 @@ SECRET_KEY = 'django-insecure-^*!c2&haz+91s+q0874tp!*g@mv26_!#xw$=i(h@!3&=k3^n#w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['krishnabharambe.pythonanywhere.com', '*',
-                 'http://localhost:3000', 'http://127.0.0.1:8000', 'http://127.0.0.1:3000']
+ALLOWED_HOSTS = ['krishnabharambe.pythonanywhere.com','*','http://localhost:3000','http://127.0.0.1:8000']
 
 
 # Application definition
@@ -44,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'corsheaders',
-
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -124,13 +122,14 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+import os
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (
+STATICFILES_DIRS=(
     os.path.join(BASE_DIR, 'static'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 MEDIA_URL = '/media/'
 
 # Default primary key field type

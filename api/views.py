@@ -530,6 +530,18 @@ def allSlidercards(request):
 
 
 @api_view(['GET', ])
+def allsubSubService(request):
+    try:
+
+        SubServices = M_SubServices.objects.all()
+    except M_Services.DoesNotExist or M_SubServices.DoesNotExist:
+        return Response(status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer = M_SubServicesSerializer(SubServices, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET', ])
 def serviceOrList(request, service):
     try:
         ActiveService = M_Services.objects.get(pk=service)
@@ -538,13 +550,14 @@ def serviceOrList(request, service):
         return Response(status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = M_ServicesSerializer(SubServices, many=True)
+        serializer = M_ServicesSerializer(ActiveService, many=False)
         return Response(serializer.data)
 
 @api_view(['GET', ])
 def serviceOrList4(request, service):
     try:
-        ActiveService = M_Services.objects.get(pk=service)
+        # ActiveService = M_Services.objects.get(pk=service)
+        ActiveService = M_Services.objects.all()
         SubServices = M_SubServices.objects.filter(MainService=ActiveService).order_by('id')[:4]
     except M_Services.DoesNotExist or M_SubServices.DoesNotExist:
         return Response(status.HTTP_404_NOT_FOUND)

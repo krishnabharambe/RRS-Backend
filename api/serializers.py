@@ -20,19 +20,17 @@ class R_RequestsSerializer(serializers.ModelSerializer):
         model = R_Requests
         fields = '__all__'
 
-
-
-class M_ServicesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = M_Services
-        fields = ['id', 'title', 'description',
-                  'shortdescription', 'status', 'icon', 'uploaded_at']
-
 class M_SubServicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = M_SubServices
         fields = '__all__'
-
+        
+class M_ServicesSerializer(serializers.ModelSerializer):
+    mservice = M_SubServicesSerializer(many=True, read_only=True)
+    class Meta:
+        model = M_Services
+        fields = '__all__'
+                  
 class R_RequestsTechSerializer(serializers.ModelSerializer):
     ServiceID = M_SubServicesSerializer(read_only=True)
     class Meta:

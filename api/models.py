@@ -174,7 +174,7 @@ class M_Services(models.Model):
 
 class M_SubServices(models.Model):
     MainService = models.ForeignKey(
-    M_Services, null=True, on_delete=models.SET_NULL)
+    M_Services,related_name="mservice",on_delete=models.CASCADE)
     title = models.CharField(max_length=1000)
     description = models.TextField()
     shortdescription = models.CharField(max_length=1000)

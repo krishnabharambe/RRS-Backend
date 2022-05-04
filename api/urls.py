@@ -22,6 +22,7 @@ urlpatterns = [
     path('Services4/', views.Services4),
     path('allServicesList/<service>/', views.serviceOrList),
     path('allServicesList4/<service>/', views.serviceOrList4),
+    path('allsubSubService/', views.allsubSubService),
     path('SubService/<service>/', views.SubServiceView),
 
     path('allRequests/', views.allRequests, name="allRequests"),
