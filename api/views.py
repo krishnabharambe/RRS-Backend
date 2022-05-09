@@ -654,9 +654,9 @@ class getRequest(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated, ]
     
-    def get(self, request):
+    def get(self, request,id):
         try:
-            reqAsssgined = R_Requests.objects.get(pk=request.data.get('id',False))
+            reqAsssgined = R_Requests.objects.get(pk=id)
         except R_Requests.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
