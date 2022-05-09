@@ -755,18 +755,34 @@ class myProfileUpdate(APIView):
 
 
 
-# Cancelled
-@api_view(['POST',])
-def CancelBooking(request,id):
-    try:
-        brequest = R_Requests.objects.get(pk=id)
-        brequest.Status = "Cancelled"
-        brequest.save()
+# # Cancelled
+# @api_view(['POST',])
+# def CancelBooking(request,id):
+#     authentication_classes = (TokenAuthentication,)
+#     permission_classes = [permissions.IsAuthenticated, ]
+#     try:
+#         brequest = R_Requests.objects.get(pk=id)
+#         brequest.Status = "Cancelled"
+#         brequest.save()
         
-    except R_Requests.DoesNotExist:
-        return Response(status.HTTP_404_NOT_FOUND)
+#     except R_Requests.DoesNotExist:
+#         return Response(status.HTTP_404_NOT_FOUND)
 
-    serializer = R_RequestsSSerializer(brequest)
-    return Response(serializer.data)
+#     serializer = R_RequestsSSerializer(brequest)
+#     return Response(serializer.data)
 
+class CancelBooking(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    
+    def post(self, request,id):
+        try:
+            brequest = R_Requests.objects.get(pk=id)
+            brequest.Status = "Cancelled"
+            brequest.save()
+        except R_Requests.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = R_RequestsSSerializer(brequest)
+        return Response(serilizer.data) 
         
