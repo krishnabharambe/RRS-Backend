@@ -187,7 +187,7 @@ class M_SubServices(models.Model):
         return self.title
 
 class R_Requests(models.Model):
-    ServiceID = models.ForeignKey(M_SubServices, null=True, on_delete=models.SET_NULL)
+    ServiceID = models.ForeignKey(M_SubServices, related_name="subservice", on_delete=models.CASCADE)
     UserId = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     Contact = models.CharField(max_length=1000)
     Address = models.TextField()

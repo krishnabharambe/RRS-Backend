@@ -612,16 +612,31 @@ def RV_requests(request):
             'detail': 'Something went wrong, Please try again'
         })
 
-@api_view(['GET', ])
-def getUserRequests(request):
-    try:
-        userequests = R_Requests.objects.filter(UserId=User.objects.get(pk=request.user.id))
-    except R_Requests.DoesNotExist:
-        return Response(status.HTTP_404_NOT_FOUND)
+# @api_view(['GET', ])
+# def getUserRequests(request):
+#     authentication_classes = (TokenAuthentication, )
+#     permission_classes = [permissions.IsAuthenticated, ]
+#     try:
+#         userequests = R_Requests.objects.filter(UserId=User.objects.get(pk=request.user.id))
+#     except R_Requests.DoesNotExist:
+#         return Response(status.HTTP_404_NOT_FOUND)
 
-    if request.method == "GET":
-        serializer = R_RequestsSSerializer(userequests, many=True)
-        return Response(serializer.data)
+#     if request.method == "GET":
+#         serializer = R_RequestsSSerializer(userequests, many=True)
+#         return Response(serializer.data)
+
+
+class getUserRequests(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    def get(self, request):
+        try:
+            reqAsssgined = R_Requests.objects.filter(UserId=request.user)
+        except R_Requests.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = R_RequestsSSerializer(reqAsssgined, many=True)
+        return Response(serilizer.data)     
 
 
 @api_view(['GET'])
