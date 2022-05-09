@@ -639,16 +639,29 @@ class getUserRequests(APIView):
         return Response(serilizer.data)     
 
 
-@api_view(['GET'])
-def getRequest(request, id):
-    try:
-        brequest = R_Requests.objects.get(pk=id)
-    except R_Requests.DoesNotExist:
-        return Response(status.HTTP_404_NOT_FOUND)
+# @api_view(['GET'])
+# def getRequest(request, id):
+#     try:
+#         brequest = R_Requests.objects.get(pk=id)
+#     except R_Requests.DoesNotExist:
+#         return Response(status.HTTP_404_NOT_FOUND)
 
-    if request.method == "GET":
-        serializer = R_RequestsSSerializer(brequest)
-        return Response(serializer.data)
+#     if request.method == "GET":
+#         serializer = R_RequestsSSerializer(brequest)
+#         return Response(serializer.data)
+
+class getRequest(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    
+    def get(self, request):
+        try:
+            reqAsssgined = R_Requests.objects.get(pk=request.data.get('id',False))
+        except R_Requests.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = R_RequestsSSerializer(reqAsssgined)
+        return Response(serilizer.data) 
 
 
 # class myProfile(generics.RetrieveAPIView):

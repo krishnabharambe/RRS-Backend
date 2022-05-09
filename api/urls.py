@@ -28,7 +28,7 @@ urlpatterns = [
     path('allRequests/', views.allRequests, name="allRequests"),
     path('requests/add/', views.RV_requests, name="RV_requests"),
     path('requests/', views.getUserRequests.as_view(), name="getUserRequests"),
-    path('request/<id>/', views.getRequest, name="getRequest"),
+    path('request/', views.getRequest.as_view(), name="getRequest"),
     path('CancelBooking/<id>/', views.CancelBooking, name="CancelBooking"),
 
     path('profile/', views.myProfile.as_view(), name="myProfile"),
