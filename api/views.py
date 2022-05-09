@@ -775,7 +775,7 @@ class CancelBooking(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated, ]
     
-    def post(self, request,id):
+    def post(self, request,id, *args, **kwargs):
         try:
             brequest = R_Requests.objects.get(pk=id)
             brequest.Status = "Cancelled"
