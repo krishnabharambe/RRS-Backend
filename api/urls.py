@@ -25,7 +25,7 @@ urlpatterns = [
     path('allsubSubService/', views.allsubSubService),
     path('SubService/<service>/', views.SubServiceView),
 
-    path('allRequests/', views.allRequests, name="allRequests"),
+    path('allRequests/<statusui>/', views.allRequests, name="allRequests"),
     path('requests/add/', views.RV_requests, name="RV_requests"),
     path('requests/', views.getUserRequests.as_view(), name="getUserRequests"),
     path('request/<id>/', views.getRequest.as_view(), name="getRequest"),

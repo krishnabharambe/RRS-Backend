@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from api.models import M_Services, M_SubServices, Profile, R_Requests, RequestAssign, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, RequestAssignSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, R_RequestsTechSerializer, RequestAssignSerializer, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -579,14 +579,14 @@ def SubServiceView(request, service):
         return Response(serializer.data)
 
 @api_view(['GET', ])
-def allRequests(request):
+def allRequests(request, statusui):
     try:
-        SubServicesm = R_Requests.objects.all()
+        SubServicesm = R_Requests.objects.filter(Status=statusui)
     except R_Requests.DoesNotExist:
         return Response(status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = R_RequestsSerializer(SubServicesm, many=True)
+        serializer = R_RequestsTechSerializer(SubServicesm, many=True)
         return Response(serializer.data)
 
 
