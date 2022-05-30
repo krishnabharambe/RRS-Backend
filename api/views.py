@@ -800,3 +800,25 @@ class CancelBooking(APIView):
         serilizer = R_RequestsSSerializer(brequest)
         return Response(serilizer.data) 
         
+
+class AssignRequest(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            brequest = R_Requests.objects.get(pk=request.data.get('BookingId',False))
+            UserID = User.objects.get(pk=request.data.get('UserID',False))
+            brequest.Status = "Pending"
+            brequest.save()
+            
+            RA = RequestAssign()
+            RA.user = UserID
+            RA.booking = brequest
+            RA.save()
+
+        except R_Requests.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = R_RequestsSSerializer(brequest)
+        return Response(serilizer.data) 

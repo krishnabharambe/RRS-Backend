@@ -37,6 +37,7 @@ urlpatterns = [
     path('getallAssignedBookings/', views.getallAssignedBookings.as_view()),
 
     path('getAllStaff/', views.getStaff.as_view(), name="getStaff"),
+    path('assignRequest/', views.AssignRequest.as_view(), name="AssignRequest"),
 
 
 ]
