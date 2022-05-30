@@ -745,6 +745,7 @@ class myProfileUpdate(APIView):
             mProfile = Profile.objects.get(user=request.user)
             mProfile.email = request.data.get('email',False)
             mProfile.address =request.data.get('address',False)
+            mProfile.fullName =request.data.get('fullName',False)
             mProfile.city =request.data.get('city',False)
             mProfile.save()
         except Profile.DoesNotExist:

@@ -59,7 +59,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     phone_regex = RegexValidator( regex   =r'^\+?1?\d{9,14}$', message ="Phone number must be entered in the format: '+999999999'. Up to 14 digits allowed.")
     phone       = models.CharField(validators=[phone_regex], max_length=17, unique=True)
-    name        = models.CharField(max_length = 20, blank = True, null = True)
+    name        = models.CharField(max_length = 256, blank = True, null = True)
     first_login = models.BooleanField(default=False)
     active      = models.BooleanField(default=True)
     staff       = models.BooleanField(default=False)
@@ -121,6 +121,7 @@ class Profile(models.Model):
     email           =   models.EmailField( blank = True, null = True)
     image           =   models.ImageField(upload_to = upload_image_path_profile, default=None, null = True, blank = True)
     address         =   models.CharField(max_length = 900, blank = True, null = True)
+    fullName         =   models.CharField(max_length = 900, blank = True, null = True)
     city            =   models.CharField(max_length = 30, blank = True, null = True)
     first_count     =   models.IntegerField(default=0, help_text='It is 0, if the user is totally new and 1 if the user has saved his standard once' )
 
