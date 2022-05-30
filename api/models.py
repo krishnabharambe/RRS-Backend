@@ -207,8 +207,8 @@ class Offers(models.Model):
 
 
 class RequestAssign(models.Model):
-    user = models.ForeignKey(User, on_delete= models.CASCADE)
-    booking = models.ForeignKey(R_Requests, on_delete= models.CASCADE)
+    user = models.ForeignKey(User, related_name="staffDetails",on_delete= models.CASCADE)
+    booking = models.ForeignKey(R_Requests,related_name="bookingDetails", on_delete= models.CASCADE)
     bookingStatus = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Active')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     

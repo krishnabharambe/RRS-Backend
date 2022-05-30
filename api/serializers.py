@@ -37,11 +37,7 @@ class R_RequestsTechSerializer(serializers.ModelSerializer):
         model = R_Requests
         fields = '__all__'
         
-class RequestAssignSerializer(serializers.ModelSerializer):
-    booking = R_RequestsTechSerializer(read_only=True)
-    class Meta:
-        model = RequestAssign
-        fields='__all__'
+
 
 class staffUserProfileSerializer(serializers.ModelSerializer):
     usr = ProfileSerializer(read_only=True, many=False)
@@ -104,6 +100,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'phone', 'first_login')
 
+
+class RequestAssignSerializer(serializers.ModelSerializer):
+    bookingDetails = R_RequestsTechSerializer(read_only=True)
+    staffDetails = UserSerializer(read_only=True, many=True)
+    
+    class Meta:
+        model = RequestAssign
+        fields = '__all__'
 
 class LoginUserSerializer(serializers.Serializer):
     phone = serializers.CharField()

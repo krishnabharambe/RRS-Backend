@@ -822,3 +822,19 @@ class AssignRequest(APIView):
 
         serilizer = R_RequestsSSerializer(brequest)
         return Response(serilizer.data) 
+
+
+class getAssignedTech(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    
+    def post(self, request,id, *args, **kwargs):
+        try:
+            brequest = R_Requests.objects.get(pk=id)
+            RAs = RequestAssign.objects.filter(booking = brequest)
+
+        except RequestAssign.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = RequestAssignSerializer(RAs, many=True)
+        return Response(serilizer.data) 
