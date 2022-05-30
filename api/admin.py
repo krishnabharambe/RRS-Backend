@@ -18,6 +18,7 @@ admin.site.register(M_SubServices)
 admin.site.register(R_Requests)
 admin.site.register(Offers)
 admin.site.register(RequestAssign)
+admin.site.register(Profile)
 
 class ProfileInline(admin.StackedInline):
     model = Profile

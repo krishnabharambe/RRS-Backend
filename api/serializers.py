@@ -43,6 +43,11 @@ class RequestAssignSerializer(serializers.ModelSerializer):
         model = RequestAssign
         fields='__all__'
 
+class staffUserProfileSerializer(serializers.ModelSerializer):
+    usr = ProfileSerializer(read_only=True, many=False)
+    class Meta:
+        model = User
+        fields='__all__'
 
 
 class M_Services4Serializer(serializers.ModelSerializer):

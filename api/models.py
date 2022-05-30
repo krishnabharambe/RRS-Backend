@@ -117,7 +117,7 @@ def get_filename_ext(filepath):
 
 
 class Profile(models.Model):
-    user            =   models.OneToOneField(User, on_delete= models.CASCADE)
+    user            =   models.OneToOneField(User,related_name="usr", on_delete= models.CASCADE)
     email           =   models.EmailField( blank = True, null = True)
     image           =   models.ImageField(upload_to = upload_image_path_profile, default=None, null = True, blank = True)
     address         =   models.CharField(max_length = 900, blank = True, null = True)

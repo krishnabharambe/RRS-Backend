@@ -12,7 +12,7 @@ from django.db.models import Q
 from api.models import M_Services, M_SubServices, Profile, R_Requests, RequestAssign, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
 from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, R_RequestsTechSerializer, RequestAssignSerializer, SliderImageModelSerializer,
-                          UserSerializer, LoginUserSerializer, ForgetPasswordSerializer)
+                          UserSerializer, LoginUserSerializer, ForgetPasswordSerializer, staffUserProfileSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
@@ -637,6 +637,19 @@ class getUserRequests(APIView):
 
         serilizer = R_RequestsSSerializer(reqAsssgined, many=True)
         return Response(serilizer.data)     
+
+
+class getStaff(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    def get(self, request):
+        try:
+            reqAsssgined = User.objects.filter(staff=True)
+        except User.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = staffUserProfileSerializer(reqAsssgined, many=True)
+        return Response(serilizer.data)   
 
 
 # @api_view(['GET'])

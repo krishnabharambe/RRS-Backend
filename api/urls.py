@@ -34,6 +34,9 @@ urlpatterns = [
     path('profile/', views.myProfile.as_view(), name="myProfile"),
     path('myProfileUpdate/', views.myProfileUpdate.as_view(), name='myProfileUpdate'),
 
-    path('getallAssignedBookings/', views.getallAssignedBookings.as_view())
+    path('getallAssignedBookings/', views.getallAssignedBookings.as_view()),
+
+    path('getAllStaff/', views.getStaff.as_view(), name="getStaff"),
+
 
 ]
