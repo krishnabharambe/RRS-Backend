@@ -41,5 +41,8 @@ urlpatterns = [
     path('getAssignedTech/<id>/', views.getAssignedTech.as_view(), name="getAssignedTech"),
     path('OpenPool/<id>/', views.SendToOpenPool.as_view(), name="SendToOpenPool"),
 
+    path('getTechAssignedBookings/', views.getTechAssignedRequests.as_view(), name="getTechAssignedRequests"),
+
+
 
 ]

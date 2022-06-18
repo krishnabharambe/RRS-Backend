@@ -853,3 +853,16 @@ class getAssignedTech(APIView):
 
         serilizer = RequestAssignSerializer(RAs, many=True)
         return Response(serilizer.data) 
+
+
+class getTechAssignedRequests(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    def get(self, request):
+        try:
+            reqAsssgined = RequestAssign.objects.filter(UserId=request.user)
+        except RequestAssign.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = RequestAssignSerializer(reqAsssgined, many=True)
+        return Response(serilizer.data) 
