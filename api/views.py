@@ -860,7 +860,7 @@ class getTechAssignedRequests(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
     def get(self, request):
         try:
-            reqAsssgined = RequestAssign.objects.filter(UserId=request.user)
+            reqAsssgined = RequestAssign.objects.filter(user=request.user)
         except RequestAssign.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
