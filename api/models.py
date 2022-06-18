@@ -18,6 +18,16 @@ STATUS_CHOICES = (
     ('Complete','Complete'),
     ('Archived','Archived'),
     ('Cancelled','Cancelled'),
+    ('OpenPool','OpenPool')
+)
+
+STATUS_CHOICES2 = (
+    ('Active','Active'),
+    ('Pending', 'Pending'),
+    ('Complete','Complete'),
+    ('Archived','Archived'),
+    ('Cancelled','Cancelled'),
+    ('OpenPool','OpenPool')
 )
 
 class UserManager(BaseUserManager):
@@ -193,7 +203,7 @@ class R_Requests(models.Model):
     Contact = models.CharField(max_length=1000)
     Address = models.TextField()
     Comments = models.TextField()
-    Status = models.CharField(max_length=100, choices=STATUS_CHOICES, default='Active')
+    Status = models.CharField(max_length=100, choices=STATUS_CHOICES2, default='Active')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 class Offers(models.Model):
