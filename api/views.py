@@ -838,6 +838,26 @@ class AssignRequest(APIView):
         serilizer = R_RequestsSSerializer(brequest)
         return Response(serilizer.data) 
 
+class AssignRequesttoMySelfFromOpenPool(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    
+    def post(self, request,bookingid, *args, **kwargs):
+        try:
+            brequest = R_Requests.objects.get(pk=bookingid)
+            brequest.Status = "Pending"
+            brequest.save()
+            
+            RA = RequestAssign()
+            RA.user = request.user
+            RA.booking = brequest
+            RA.save()
+
+        except R_Requests.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = R_RequestsSSerializer(brequest)
+        return Response(serilizer.data) 
 
 class getAssignedTech(APIView):
     authentication_classes = (TokenAuthentication,)
