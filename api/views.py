@@ -851,6 +851,7 @@ class AssignRequesttoMySelfFromOpenPool(APIView):
             RA = RequestAssign()
             RA.user = request.user
             RA.booking = brequest
+            RA.bookingStatus = "Pending"
             RA.save()
 
         except R_Requests.DoesNotExist:
