@@ -109,6 +109,14 @@ class RequestAssignSerializer(serializers.ModelSerializer):
         model = RequestAssign
         fields = '__all__'
 
+
+class RequestAssignSerializer2(serializers.ModelSerializer):
+    booking = R_RequestsTechSerializer(read_only=True)
+    
+    class Meta:
+        model = RequestAssign
+        fields = '__all__'
+
 class LoginUserSerializer(serializers.Serializer):
     phone = serializers.CharField()
     password = serializers.CharField(

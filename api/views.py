@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from django.db.models import Q
 from api.models import M_Services, M_SubServices, Profile, R_Requests, RequestAssign, SliderImageModel, User, PhoneOTP
 from rest_framework.views import APIView
-from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, R_RequestsTechSerializer, RequestAssignSerializer, SliderImageModelSerializer,
+from .serializers import (CreateTechUserSerializer, CreateUserSerializer, ChangePasswordSerializer, LoginTechUserSerializer, M_Services4Serializer, M_ServicesSerializer, M_SubServicesSerializer, ProfileSerializer, R_RequestsSSerializer, R_RequestsSerializer, R_RequestsTechSerializer, RequestAssignSerializer, RequestAssignSerializer2, SliderImageModelSerializer,
                           UserSerializer, LoginUserSerializer, ForgetPasswordSerializer, staffUserProfileSerializer)
 from knox.auth import TokenAuthentication
 from knox.views import LoginView as KnoxLoginView
@@ -864,5 +864,18 @@ class getTechAssignedRequests(APIView):
         except RequestAssign.DoesNotExist:
             return Response(status.HTTP_404_NOT_FOUND)
 
-        serilizer = RequestAssignSerializer(reqAsssgined, many=True)
+        serilizer = RequestAssignSerializer2(reqAsssgined, many=True)
+        return Response(serilizer.data) 
+
+
+class getTechAssignedRequestsByStatus(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [permissions.IsAuthenticated, ]
+    def get(self, request,status):
+        try:
+            reqAsssgined = RequestAssign.objects.filter(user=request.user, bookingStatus=status)
+        except RequestAssign.DoesNotExist:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        serilizer = RequestAssignSerializer2(reqAsssgined, many=True)
         return Response(serilizer.data) 
