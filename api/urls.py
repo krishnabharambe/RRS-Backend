@@ -39,6 +39,7 @@ urlpatterns = [
     path('getAllStaff/', views.getStaff.as_view(), name="getStaff"),
     path('assignRequest/', views.AssignRequest.as_view(), name="AssignRequest"),
     path('getAssignedTech/<id>/', views.getAssignedTech.as_view(), name="getAssignedTech"),
+    path('OpenPool/<id>/', views.SendToOpenPool.as_view(), name="SendToOpenPool"),
 
 
 ]
